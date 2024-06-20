@@ -1,13 +1,19 @@
 import { React, useState } from "react";
 import products from "./products.json";
-
-const ProductTable = () => {
+interface LinkProps {
+    onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+    // Other props...
+  }
+export function ProductTable({ onClick, ...rest }: LinkProps) {
   const headers = [
     { key: "ProductName", label: "Product" },
     { key: "ProductID", label: "ID" },
     { key: "UnitPrice", label: "Unit Price" },
     { key: "QuantityPerUnit", label: "Qty Per Unit" },
   ];
+  const [show, setShow] = useState(false);
+  const toggleShow = () => setShow(!show);
+
   return (
     <div className="max-h-96 mx-5 mt-10 ">
       <table className=" table-fixed border-[1px] border-collapse text-left">
@@ -28,20 +34,20 @@ const ProductTable = () => {
             return (
               <>
                 <tr className="hover:bg-tablehover" key={product.ProductID}>
-                  <td className="border pl-2 py-3">
-                    <a href="#">
-                      <span>
-                        <svg
-                          aria-hidden="true"
-                          focusable="false"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512 512"
-                        >
-                          <path d="M288 224V96h-64v128H96v64h128v128h64V288h128v-64z"></path>
-                        </svg>
-                      </span>
+                <td className="border pl-2 py-3">
+                    <a role="button" onClick={onClick} title="Toggle Show">
+                        <span>
+                            <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"
+                            >
+                                <path d="M288 224V96h-64v128H96v64h128v128h64V288h128v-64z"></path>
+                            </svg>
+                        </span>
                     </a>
-                  </td>
+                </td>
                   <td className="border pl-2 ">{product.ProductName} </td>
                   <td className="border pl-2">{product.ProductID} </td>
                   <td className="border pl-2">{product.UnitPrice} </td>
@@ -56,4 +62,3 @@ const ProductTable = () => {
   );
 };
 
-export default ProductTable;
